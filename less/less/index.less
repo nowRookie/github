@@ -1,25 +1,196 @@
-// ****************************** mixin *************************************
+// less中文https://less.bootcss.com/
+/* ****************************** 变量variable ************************************* */
+// 基础篇
+@variable_width: 10px;
+
+.variable_test {
+  width: @variable_width;
+}
+
+// 进阶篇
+@variable_name: banner;
+
+.@{variable_name} {
+  color: red;
+  // background: $color;//新属性
+}
+
+.variable_img {
+  background:url("../@{variable_name}/icon.png");
+}
+
+/* ****************************** mixin **************************************/
+// 基础篇
+.mixin_red {
+  color: red;
+}
+
+.mixin_theme {
+  .mixin_red();
+}
+
+// 进阶篇
 // ##、定义一个mixin类:
 // 方式一:(会在css中输出)
 // .red {
 //     color: red
 // }
 // 方式二:(不会在css中输出)
-.red() {
-  color: red;
+.mixin_blue() {
+  color: blue;
 }
 
-// ##、命名空间:使用#()或者.()
+// ##、命名空间:使用#()或者.()，不加()会在css中输出
 // 调用:
-// .parent>.child()
-// .parent .child()
-// .parent.child()
+// #mixin_parent>.child()
+// #mixin_parent .child()
+// #mixin_parent.child()
 
-.parent() {
+#mixin_parent() {
   .child {
     font-size: 16px;
   }
 }
+
+.mixin_test {
+  #mixin_parent.child()
+}
+
+/* ****************************** insert嵌套 **************************************/
+// css的写法
+.insert_header {
+  color: red
+}
+
+.insert_header .logo {
+  color: black
+}
+
+// less写法
+.insert_header {
+  font-size: 14px;
+
+  .logo {
+    color: black
+  }
+}
+
+// 例如：清除浮动
+.clearfix {
+  display: block;
+  zoom: 1;
+
+  &:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+// @media嵌套规则
+.component {
+  @media(min-width:1000px) {
+    font-size: 16px;
+  }
+
+  @media(min-width:1200px) {
+    font-size: 18px;
+  }
+}
+
+
+/* ****************************** cal运算 **************************************/
+// 支持+-*/四则运算,less默认支持单位换算，一般情况以最左侧
+@cal_add: 5cm + 10mm; // 结果是 6cm
+@cal_substract: 2 - 3cm - 5mm; // 结果是 -1.5cm
+
+@cal_mixCal: 2 + 5px - 3cm; // 结果是 4px
+
+@cal_base: 5%;
+@cal_multiply: @cal_base * 2; // 结果是 10%
+@cal_other: @cal_base + @cal_multiply; // 结果是 15%
+@cal_color: #224488 / 2; //结果是 #112244
+
+/* ****************************** transfer转义 **************************************/
+// ~"anything"形式会被原样输出
+@transfer_min768: ~"(min-width: 768px)";
+// @min768: (min-width: 768px);//less3.5开始支持简写
+
+.element {
+  @media @transfer_min768 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ****************************** fun函数 **************************************/
+@fun_base: #f04615;
+@fun_width: 0.5;
+
+.fun_class {
+  width: percentage(@fun_width); // returns `50%`
+  color: saturate(@fun_base, 5%);
+  background-color: spin(lighten(@fun_base, 25%), 8);
+  // margin: if((2>1), 5px, 10px); //less3.x才支持
+}
+
+// @fun_colors: blue, green, red;
+// each(@fun_colors, {
+//   .@{value} {
+//     color: ~"@{value}";
+//   }
+// });
+// @fun_set: {
+//   one: blue;
+//   two: green;
+//   three: red;
+// }
+// .fun_set {
+//   each(@fun_set, {
+//     @{key}-@{index}: @value;
+//   });
+// }
+/* ****************************** map映射 **************************************/
+#map_colors() {
+  primary: blue;
+  secondary: green;
+}
+
+.map_button {
+  // color: #map_colors[primary]; //less3.x开始支持
+  // border: 1px solid #map_colors[secondary]; //less3.x开始支持
+}
+
+/* ****************************** scope作用域 **************************************/
+@scope_var: red;
+
+#page {
+  @scope_var: white;
+
+  #header {
+    color: @scope_var; // white
+  }
+}
+
+/* ****************************** 导入 **************************************/
+@import "./global.less";
+
+
+/* ****************************** 使用less **************************************/
+/* node */
+// npm i less
+
+/* browser */
+// <link rel="stylesheet/less" type="text/css" href="styles.less" />
+// <script src="less.js" type="text/javascript"></script>
+
+/*修改变量 
+less.modifyVars({
+  '@buttonFace': '#5B83AD',
+  '@buttonText': '#D9EEF2'
+});
+ */
 
 // ##、@arguments(备注:@arguments跟传入的参数位置息息相关)
 // 示例:
@@ -33,13 +204,18 @@
 // }
 
 // ##、相同名字的mixin
-// .mixin(@width) {
-//     width: @width;
-// }
-// .mixin(@width, @height: 5) {
-//     width: @width;
-//     height: @height;
-// }
+.mixin(@width) {
+  width: @width;
+}
+
+.mixin(@width, @height: 5) {
+  width: @width;
+  height: @height;
+}
+
+.ya {
+  .mixin(10px);
+}
 
 // ##、迭代
 // .loop(@width:1) when(@width<10) {

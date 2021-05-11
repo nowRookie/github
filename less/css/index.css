@@ -1,0 +1,89 @@
+/* ****************************** 变量variable ************************************* */
+.variable_test {
+  width: 10px;
+}
+.banner {
+  color: red;
+}
+.variable_img {
+  background: url("../banner/icon.png");
+}
+/* ****************************** mixin **************************************/
+.mixin_red {
+  color: red;
+}
+.mixin_theme {
+  color: red;
+}
+.mixin_test {
+  font-size: 16px;
+}
+/* ****************************** insert嵌套 **************************************/
+.insert_header {
+  color: #ff0000;
+}
+.insert_header .logo {
+  color: #000000;
+}
+.insert_header {
+  font-size: 14px;
+}
+.insert_header .logo {
+  color: #000000;
+}
+.clearfix {
+  display: block;
+  zoom: 1;
+}
+.clearfix:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+@media (min-width: 1000px) {
+  .component {
+    font-size: 16px;
+  }
+}
+@media (min-width: 1200px) {
+  .component {
+    font-size: 18px;
+  }
+}
+/* ****************************** cal运算 **************************************/
+/* ****************************** transfer转义 **************************************/
+@media (min-width: 768px) {
+  .element {
+    font-size: 1.2rem;
+  }
+}
+/* ****************************** fun函数 **************************************/
+.fun_class {
+  width: 50%;
+  color: #f6430f;
+  background-color: #f8b38d;
+}
+/* ****************************** map映射 **************************************/
+/* ****************************** scope作用域 **************************************/
+#page #header {
+  color: #ffffff;
+}
+/* ****************************** 导入 **************************************/
+#global {
+  theme: red;
+}
+/* ****************************** 使用less **************************************/
+/* node */
+/* browser */
+/*修改变量 
+less.modifyVars({
+  '@buttonFace': '#5B83AD',
+  '@buttonText': '#D9EEF2'
+});
+ */
+.ya {
+  width: 10px;
+  height: 5;
+}
