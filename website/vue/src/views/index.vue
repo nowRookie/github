@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <div id="canvas"></div>
-    <catClaw></catClaw>
+    <CatClaw></CatClaw>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ import {
   randomColor,
   getStyle,
   debounce,
-} from "@/utils/utils";
+} from "@/plugins/utils";
 
 var starSkyPng = require("@/assets/img/starSky.png");
 

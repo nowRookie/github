@@ -110,7 +110,7 @@ import {
   loading,
   linearArrayToTree, //一维数组转树结构
   treeToLinearArray, //树结构转一维数组
-} from "@/utils/utils";
+} from "@/plugins/utils";
 
 export default {
   data() {

@@ -21,7 +21,7 @@
       </div>
     </div>
     <!-- 右下角猫爪链接 -->
-    <catClaw></catClaw>
+    <CatClaw></CatClaw>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 
-import { getOptions, linearArrayToTree } from "@/utils/utils";
+import { getOptions, linearArrayToTree } from "@/plugins/utils";
 
 export default {
   name: "backend",

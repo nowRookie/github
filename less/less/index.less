@@ -12,11 +12,184 @@
 
 .@{variable_name} {
   color: red;
-  // background: $color;//新属性
+  // background: $color;//新属性v3.0.0
 }
 
 .variable_img {
   background:url("../@{variable_name}/icon.png");
+}
+
+/* ****************************** parent selector & **************************************/
+// 基础篇
+a {
+  color: red;
+
+  &:hover {
+    color: blue;
+  }
+}
+
+.button {
+  width: 20px;
+
+  &-ok {
+    width: 40px;
+  }
+
+  .pre & {
+    width: 60px;
+  }
+}
+
+// 进阶篇
+.link {
+  &+& {
+    // .link+.link
+    color: red;
+  }
+
+  & & {
+    // .link .link
+    color: green;
+  }
+
+  && {
+    // .link.link
+    color: blue;
+  }
+
+  &,
+  &ish {
+    // .link,.linkish
+    color: cyan;
+  }
+}
+
+.grand {
+  .parent {
+
+    //这里的&代表 .grand .parent
+    &>& {
+      // .grand .parent>.grand .parent
+      color: red;
+    }
+
+    & & {
+      // .grand .parent .grand .parent
+      color: green;
+    }
+
+    && {
+      // .grand .parent.grand .parent
+      color: blue;
+    }
+
+    &,
+    &ish {
+      // .grand .parent,.grand .parentish
+      color: cyan;
+    }
+  }
+}
+
+p,
+a {
+  border-top: 2px dotted #366;
+
+  &+& {
+    // 编译结果
+    // p+p,
+    // p+a,
+    // a+p,
+    // a+a,
+    border-top: 0;
+  }
+}
+
+/* ****************************** :extend **************************************/
+// :extend有诸多使用方式，也有诸多限制
+nav ul {
+  &:extend(.inline); // .inline,nav ul {color: red;}
+  background: blue;
+}
+
+.inline {
+  color: red;
+}
+
+.cool {
+  &:extend(.inline, .bucket);
+}
+
+pre:hover,
+.some-class {
+  &:extend(div pre);
+  // pre:hover:extend(div pre),.some-class:extend(div pre) {}
+}
+
+[title=identifier] {
+  color: blue;
+}
+
+.noQuote:extend([title=identifier]) {
+  // [title=identifier],.noQuoteP
+}
+
+.a.b.test,
+.test.c {
+  color: orange;
+}
+
+.test {
+  &:hover {
+    color: green;
+  }
+}
+
+.replacement:extend(.test all) {
+  // .a.b.test,.test.c,.a.b.replacement,.replacement.c {}
+  // .test:hover,.replacement:hover{}
+}
+
+.bucket {
+  color: blue;
+}
+
+@{variable}:extend(.bucket) {}
+
+@variable: .selector;
+
+@media screen {
+  .selector {
+    color: blue;
+  }
+
+  @media (min-width: 1023px) {
+    .selector {
+      color: blue;
+    }
+  }
+}
+
+.topLevel:extend(.selector) {}
+
+/* ****************************** Merge & **************************************/
+.merge_mixin() {
+  box-shadow+: inset 0 0 10px #555;
+}
+
+.merge_myclass {
+  .merge_mixin();
+  box-shadow+: 0 0 20px black;
+}
+
+.merge_trans() {
+  transform+_: scale(2);
+}
+
+.merge_myclass {
+  .merge_trans();
+  transform+_: rotate(15deg);
 }
 
 /* ****************************** mixin **************************************/
@@ -40,6 +213,16 @@
   color: blue;
 }
 
+.my-hover-mixin() {
+  &:hover {
+    border: 1px solid red;
+  }
+}
+
+button {
+  .my-hover-mixin();
+}
+
 // ##、命名空间:使用#()或者.()，不加()会在css中输出
 // 调用:
 // #mixin_parent>.child()
@@ -54,6 +237,45 @@
 
 .mixin_test {
   #mixin_parent.child()
+}
+
+// mixin传参(分号和逗号都可以，保险起见使用分号)
+.foo (@bg: #f5f5f5; @color: #900) {
+  background: @bg;
+  color: @color;
+}
+
+.unimportant {
+  .foo();
+}
+
+// 将mixin用作function：v3.5.0
+// .average(@x, @y) {
+//   @result: ((@x + @y) / 2);
+// }
+
+// div {
+//   padding: .average(16px, 50px)[@result];
+// }
+
+// mixin递归(>, >=, =, =<, <) 关键字and not
+.loop(@counter) when (@counter > 0) {
+  .loop((@counter - 1)); // next iteration
+  width: (10px * @counter); // code for each iteration
+}
+
+div {
+  .loop(5)
+}
+
+.generate-columns(4);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .column-@{i} {
+    width: (@i * 100% / @n);
+  }
+
+  .generate-columns(@n, (@i + 1));
 }
 
 /* ****************************** insert嵌套 **************************************/

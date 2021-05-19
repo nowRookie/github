@@ -51,7 +51,7 @@ import _ from "lodash";
 import moment from "moment";
 import marked from "marked";
 
-import { getOptions, throttle } from "@/utils/utils";
+import { getOptions, throttle } from "@/plugins/utils";
 
 export default {
   name: "newNote",

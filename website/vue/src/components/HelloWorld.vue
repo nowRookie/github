@@ -198,7 +198,7 @@
 import _ from "lodash";
 import moment from "moment";
 import axios from "axios";
-import { getOptions, dealDate } from "@/utils/utils";
+import { getOptions, dealDate } from "@/plugins/utils";
 
 const api = process.env.VUE_APP_API_URL;
 

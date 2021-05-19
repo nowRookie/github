@@ -52,7 +52,7 @@
 <script>
 import Vue from "vue";
 import axios from "axios";
-import { loading } from "@/utils/utils";
+import { loading } from "@/plugins/utils";
 
 // import { api } from "@/http/config";
 const api = process.env.VUE_APP_API_URL;

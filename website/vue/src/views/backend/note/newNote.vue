@@ -46,7 +46,7 @@ import moment from "moment";
 import marked from "marked";
 import "github-markdown-css";
 
-import { getOptions } from "@/utils/utils";
+import { getOptions } from "@/plugins/utils";
 
 export default {
   name: "newNote",

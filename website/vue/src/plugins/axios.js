@@ -2,7 +2,7 @@ import axios from "axios"
 import qs from "qs"
 import { Message } from 'element-ui';
 import router, { routes } from '@/router/index.js'
-import { loading } from "@/plugins/util"
+import { loading } from "@/plugins/utils"
 
 // console.log("routes=", routes)
 

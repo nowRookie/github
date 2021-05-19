@@ -38,7 +38,7 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 
-import { getOptions, loading } from "@/utils/utils";
+import { getOptions, loading } from "@/plugins/utils";
 
 export default {
   name: "list",

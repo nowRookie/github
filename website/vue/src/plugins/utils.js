@@ -6,7 +6,70 @@ import moment from "moment";
 
 const api = process.env.VUE_APP_API_URL;
 
-export default {};
+export default {
+  resize(fn) {
+    fn();
+    window.addEventListener("resize", fn, false);
+  },
+  firstUpperCase(str) {
+    return str.replace(str.substr(0, 1), str.substr(0, 1).toUpperCase());
+  },
+  dynamicPX(px) {
+    return (
+      (px / 192) *
+      parseFloat(
+        getComputedStyle(document.getElementsByTagName("html")[0]).fontSize
+      )
+    );
+  },
+  requestAnimationFrame(callback) {
+    return (
+      window.requestAnimationFrame(callback) ||
+      window.mozRequestAnimationFrame(callback) ||
+      window.webkitRequestAnimationFrame(callback) ||
+      window.msRequestAnimationFrame(callback) ||
+      function(callback) {
+        var now = Date.now();
+        var nextTime = Math.max(lastTime + 16, now);
+        return setTimeout(function() {
+          callback((lastTime = nextTime));
+        }, nextTime - now);
+      }.bind(this)(callback)
+    );
+  },
+  dateFormat(date, format) {
+    format = format || "yyyy-MM-dd";
+    date = typeof date == "string" ? new Date(date) : date;
+    const formats = {
+      "M+": date.getMonth() + 1,
+      "d+": date.getDate(),
+      "h+": date.getHours(),
+      "m+": date.getMinutes(),
+      "s+": date.getSeconds(),
+      "q+": Math.floor((date.getMonth() + 3) / 3),
+      "S+": date.getMilliseconds(),
+    };
+    if (/(y+)/i.test(format))
+      format = format.replace(
+        RegExp.$1,
+        (date.getFullYear() + "").substr(4 - RegExp.$1.length)
+      );
+    for (var k in formats) {
+      if (new RegExp("(" + k + ")").test(format)) {
+        format = format.replace(
+          RegExp.$1,
+          RegExp.$1.length == 1
+            ? formats[k]
+            : ("00" + formats[k]).substr(("" + formats[k]).length)
+        );
+      }
+    }
+    return format;
+  },
+  downloadBlob,
+  upload,
+  treeToLinearArray,
+};
 
 let isLoading;
 export function loading(boolean) {

@@ -9,7 +9,7 @@ import axios from "axios";
 import _ from "lodash";
 import moment from "moment";
 
-import { getOptions } from "@/utils/utils";
+import { getOptions } from "@/plugins/utils";
 
 export default {
   name: "setting",
