@@ -10,8 +10,8 @@ let LiFangJin = "http://23.13.5.162:8787"//李芳金
 let LiJianHui = "http://23.13.5.208:8787"//李建会
 let LiuYang = "http://23.13.5.131:8787"//刘阳
 
-// const api = process.env.VUE_APP_API_URL;
-const api = LiJianHui;
+const api = process.env.VUE_APP_API_URL;
+// const api = LiJianHui;
 
 // 添加aixo拦截器
 axios.interceptors.request.use(function (config) {

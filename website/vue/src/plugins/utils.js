@@ -223,7 +223,6 @@ export function typeOf(value) {
 export function getOptions(options) {
   return {
     ...options,
-    url: api + options.url,
     headers: {
       "X-Requested-With": "XMLHttpRequest",
       "Content-Type": "application/Json; charset=UTF-8",

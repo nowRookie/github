@@ -1,3 +1,6 @@
+/* const context=require.content(需要搜索的目录,是否搜索子目录,匹配文件的正则表达式)
+context.resolve()、context.keys()、context.id
+*/
 const files = require.context("../components", false, /\.vue$/);
 const components = {};
 files.keys().forEach((url) => {

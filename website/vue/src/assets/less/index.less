@@ -48,16 +48,13 @@ h6 {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+a,
+.a {
   text-decoration: none;
-}
 
-a:hover {
-  cursor: pointer;
-}
-
-.a:hover {
-  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .w20 {
@@ -102,6 +99,10 @@ a:hover {
 
 .cf {
   color: #fff;
+}
+
+.c0 {
+  color: #000;
 }
 
 .c3 {
@@ -160,7 +161,8 @@ a:hover {
   position: fixed;
 }
 
-.b {
+.b,
+.border {
   border: 1px solid #ddd;
 }
 
@@ -182,6 +184,19 @@ a:hover {
 
 .oh {
   overflow: hidden;
+}
+
+.clearfix {
+  display: block;
+  zoom: 1;
+
+  &:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
 }
 
 .between {
@@ -228,6 +243,10 @@ a:hover {
   &::-webkit-scrollbar-corner {
     background: #179a16;
   }
+}
+
+.mxauto {
+  margin: 0 auto;
 }
 
 #margin(@value: 0) when(@value=<100) {
@@ -323,14 +342,6 @@ a:hover {
     height:~"@{value}%"
   }
 
-  .w@{value}px {
-    width:~"@{value}px";
-  }
-
-  .h@{value}px {
-    height:~"@{value}px"
-  }
-
 }
 
 #widthPercent();
@@ -345,11 +356,15 @@ a:hover {
   .h@{value}px {
     height:~"@{value}px"
   }
+
+  .lh@{value}px {
+    line-height:~"@{value}px"
+  }
 }
 
 #widthPx();
 
-#trbl(@value: 0) when(@value=<100) {
+#trbl(@value: -100) when(@value=<100) {
   #trbl((@value+1));
 
   .top@{value} {
@@ -366,10 +381,6 @@ a:hover {
 
   .left@{value} {
     left:~"@{value}px";
-  }
-
-  .lh@{value}px {
-    line-height:~"@{value}px"
   }
 }
 
