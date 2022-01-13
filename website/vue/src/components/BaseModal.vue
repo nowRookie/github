@@ -71,7 +71,7 @@
                     :maxlength="item.maxlength || 15"
                     :value="formData[item.key]"
                     @input="(val) => triggerInputFee(item, val)"
-                    :placeholder="item.placeholder || ''"
+                    :placeholder="item.placeholder || `请输入${item.title}`"
                     @change="(val) => inputChange(item, val)"
                     autocomplete="off"
                     :disabled="type == 'detail' || item.disabled"
@@ -128,7 +128,7 @@
                     :maxlength="item.maxlength || 15"
                     :value="formData[item.key]"
                     @input="(val) => triggerInputInt(item, val)"
-                    :placeholder="item.placeholder || ''"
+                    :placeholder="item.placeholder || `请输入${item.title}`"
                     @change="(val) => inputChange(item, val)"
                     autocomplete="off"
                     :disabled="type == 'detail' || item.disabled"
@@ -185,7 +185,7 @@
                     v-model="formData[item.key]"
                     :maxlength="item.maxlength || 15"
                     @input="(val) => triggerInputDecimal(item, val)"
-                    :placeholder="item.placeholder || ''"
+                    :placeholder="item.placeholder || `请输入${item.title}`"
                     @change="(val) => inputChange(item, val)"
                     autocomplete="off"
                     :disabled="type == 'detail' || item.disabled"
@@ -234,13 +234,18 @@
                       ]
                     : []
                 "
-                v-if="!item.type || item.type == 'text'"
+                v-if="
+                  !item.type || item.type == 'text' || item.type == 'password'
+                "
               >
                 <div class="row">
                   <el-input
                     style="flex: 1"
                     v-model="formData[item.key]"
-                    :placeholder="item.placeholder || ''"
+                    :maxlength="item.maxlength || 50"
+                    :placeholder="item.placeholder || `请输入${item.title}`"
+                    :show-password="item.type == 'password' ? true : false"
+                    :type="item.type||'text'"
                     @change="(val) => inputChange(item, val)"
                     autocomplete="off"
                     :disabled="type == 'detail' || item.disabled"
@@ -348,7 +353,7 @@
               >
                 <el-input
                   v-model="formData[item.key]"
-                  :placeholder="item.placeholder || ''"
+                  :placeholder="item.placeholder || `请输入${item.title}`"
                   @change="(val) => inputChange(item, val)"
                   autocomplete="off"
                   :disabled="type == 'detail' || item.disabled"
@@ -388,7 +393,10 @@
                 <el-input
                   type="textarea"
                   v-model="formData[item.key]"
-                  :placeholder="item.placeholder || ''"
+                  :placeholder="item.placeholder || `请输入${item.title}`"
+                  :rows="item.rows || 5"
+                  :maxlength="item.maxlength || 150"
+                  resize="none"
                   @change="(val) => inputChange(item, val)"
                   autocomplete="off"
                   :disabled="type == 'detail' || item.disabled"
@@ -804,6 +812,7 @@
                   :accept="item.accept"
                   :action="item.action ? item.action : ''"
                   :name="item.name || 'file'"
+                  :data="item.params || {}"
                   :list-type="item.listType ? item.listType : 'text'"
                   :on-change="
                     (file, fileList) => {
@@ -888,6 +897,7 @@
                   :headers="item.headers"
                   :action="item.action ? api + item.action : ''"
                   :name="item.name || 'file'"
+                  :data="item.params || {}"
                   :list-type="item.listType ? item.listType : 'text'"
                   :on-success="
                     (response, file, fileList) => {
@@ -910,6 +920,7 @@
                       handlePrevie(item, file);
                     }
                   "
+                  :on-exceed="fileExceed(item.limit||5)"
                   :file-list="formData[item.key]"
                   :auto-upload="true"
                 >
@@ -1180,7 +1191,7 @@ export default {
         return false;
       }
     },
-    handleAddressFun: function (item, arr) {
+    handleAddressFun: function(item, arr) {
       setTimeout(() => {
         this.formData[item.key].label = (
           this.$refs["cascaderAddr"][0].presentText || ""
@@ -1192,6 +1203,9 @@ export default {
     datePickerChange(item, val) {
       item.method && item.method(this.formData, val);
     },
+    fileExceed(limit) {
+      this.$message.warning(`所选文件不超过${limit}个`);
+    },
     handleChange(item, file, fileList) {
       this.formData[item.key] = fileList;
     },
@@ -1199,12 +1213,7 @@ export default {
       this.formData[item.key] = fileList.map((unit) => {
         return {
           ...unit,
-          url: unit.response
-            ? unit.response && api + unit.response.data[0]
-            : unit.url,
-          urlTip: unit.response
-            ? unit.response && unit.response.data[0]
-            : unit.url,
+          data: unit.response ? unit.response.data[0] : unit.data,
         };
       });
     },

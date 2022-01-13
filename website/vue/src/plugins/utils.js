@@ -298,7 +298,7 @@ export function linearArrayToTree(list, topId) {
     unit.children = [];
   });
   _.forEach(list, (unit) => {
-    if (!unit.parentId || unit.parentId == topId) {
+    if (!unit.parentId || unit.id == topId) {
       arr.push(unit);
     } else {
       // 找到父级的index

@@ -4,7 +4,13 @@ import axios from "./axios";
 import components from "./components";
 import requests from "./requests";
 import elementMsg from "./elementMsg";
-import { Message, MessageBox } from "element-ui";
+import "./vue-echarts"
+
+import { Message, MessageBox, Notification } from "element-ui";
+import moment from "moment";
+import REGEXP from "@/assets/js/reg";
+
+import "./directive";
 
 function shortcut(vue, component) {
   const Constructor = vue.extend(component);
@@ -44,6 +50,8 @@ export default {
       $confirm: MessageBox.confirm,
       $notify: Notification,
       $prompt: MessageBox.prompt,
+      $moment: moment,
+      $REGEXP: REGEXP,
     });
 
     for (let name in components) {
