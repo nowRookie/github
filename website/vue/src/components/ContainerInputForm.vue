@@ -213,7 +213,7 @@
           >
             <el-date-picker
               :disabled="disabled||item.disabled"
-              type="date"
+              :type="item.dateType || 'date'"
               placeholder="选择日期"
               v-model="formData[item.key]"
               @change="(val)=>{datePickerChange(item,val)}"

@@ -83,6 +83,7 @@ export function loading(boolean) {
     : isLoading
     ? isLoading.close()
     : null;
+  return isLoading
 }
 
 // 下载二进制文件
@@ -292,39 +293,67 @@ export function throttle(fn, delay) {
 }
 
 // 一维数组转树形结构[{id:1},{parentId:1,id:2},{parentId:1,id:3}]
-export function linearArrayToTree(list, topId) {
+export function linearArrayToTree(
+  list,
+  rootId,
+  { idKey = "id", parentIdKey = "parentId" } = {}
+) {
   let arr = [];
   _.forEach(list, (unit) => {
     unit.children = [];
   });
   _.forEach(list, (unit) => {
-    if (!unit.parentId || unit.id == topId) {
+    if (!unit[parentIdKey] || unit[idKey] == rootId) {
       arr.push(unit);
     } else {
       // 找到父级的index
       let index = _.findIndex(list, (item) => {
-        return item.id == unit.parentId;
+        return unit[parentIdKey] == item[idKey];
       });
-      list[index].children.push(unit);
+      if (index != -1) {
+        list[index].children.push(unit);
+      }
     }
   });
   return arr;
 }
 
 // 树形结构转一维数组{id:1,children:[{id:2,parentId:1}]}
-export function treeToLinearArray(obj) {
+export function treeToLinearArray(
+  obj,
+  { childrenKey = "children", noChildren = true } = {}
+) {
   let result = [];
   result.push(obj);
-  if (obj.children && obj.children.length) {
+  if (obj[childrenKey] && obj[childrenKey].length) {
     (function deep(arr) {
       _.forEach(arr, (unit) => {
         result.push(unit);
-        if (unit.children && unit.children.length) {
-          deep(unit.children);
+        if (unit[childrenKey] && unit[childrenKey].length) {
+          deep(unit[childrenKey]);
+        }
+        if (noChildren) {
+          delete unit[childrenKey];
         }
       });
-    })(obj.children);
+    })(obj[childrenKey]);
   }
+  if (result.length && noChildren) {
+    delete result[0][childrenKey];
+  }
+  return result;
+}
+
+// 获取location中的search参数
+export function getHrefQuery() {
+  let query = location.search;
+  query = query.substring(1);
+  let result = {};
+  (query ? query.split("&") : []).forEach((unit) => {
+    if (unit) {
+      result[unit.split("=")[0]] = unit.split("=")[1];
+    }
+  });
   return result;
 }
 

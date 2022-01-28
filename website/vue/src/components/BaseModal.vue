@@ -256,6 +256,120 @@
                   }}</span>
                 </div>
               </el-form-item>
+              <!-- telphone：证件号码 -->
+              <el-form-item
+                :class="item.hide ? 'hide' : 'block h40px'"
+                :label-width="item.labelWidth"
+                :label="item.title"
+                :prop="item.key"
+                :required="item.required"
+                :rules="
+                  item.rules
+                    ? [
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'change'
+                        },
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'blur'
+                        },
+                        { validator: validateTrim, trigger: 'blur' }
+                      ].concat(item.rules)
+                    : item.required
+                    ? [
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'change'
+                        },
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'blur'
+                        },
+                        { validator: validateTrim, trigger: 'blur' }
+                      ]
+                    : []
+                "
+                v-if="item.type == 'telphone'"
+              >
+                <div class="row" style="width: 100%">
+                  <el-input
+                    style="flex: 1"
+                    v-model="formData[item.key]"
+                    :maxlength="item.maxlength || 30"
+                    @input="(val) => triggerInputTelphone(item, val)"
+                    :placeholder="item.placeholder || `请输入${item.title}`"
+                    @change="(val) => inputChange(item, val)"
+                    autocomplete="off"
+                    :disabled="type == 'detail' || item.disabled"
+                    clearable
+                  ></el-input>
+                  <span v-if="item.after" class="ml5 w50px tc">{{
+                    item.after
+                  }}</span>
+                </div>
+              </el-form-item>
+              <!-- cardNum：证件号码 -->
+              <el-form-item
+                :class="item.hide ? 'hide' : 'block h40px'"
+                :label-width="item.labelWidth"
+                :label="item.title"
+                :prop="item.key"
+                :required="item.required"
+                :rules="
+                  item.rules
+                    ? [
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'change'
+                        },
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'blur'
+                        },
+                        { validator: validateTrim, trigger: 'blur' }
+                      ].concat(item.rules)
+                    : item.required
+                    ? [
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'change'
+                        },
+                        {
+                          required: true,
+                          message: `请输入${item.title}`,
+                          trigger: 'blur'
+                        },
+                        { validator: validateTrim, trigger: 'blur' }
+                      ]
+                    : []
+                "
+                v-if="item.type == 'cardNum'"
+              >
+                <div class="row" style="width: 100%">
+                  <el-input
+                    style="flex: 1"
+                    v-model="formData[item.key]"
+                    :maxlength="item.maxlength || 30"
+                    @input="(val) => triggerInputCardNum(item, val)"
+                    :placeholder="item.placeholder || `请输入${item.title}`"
+                    @change="(val) => inputChange(item, val)"
+                    autocomplete="off"
+                    :disabled="type == 'detail' || item.disabled"
+                    clearable
+                  ></el-input>
+                  <span v-if="item.after" class="ml5 w50px tc">{{
+                    item.after
+                  }}</span>
+                </div>
+              </el-form-item>
               <!-- inputsNumber -->
               <el-form-item
                 :class="item.hide ? 'hide' : 'block h40px'"
@@ -646,7 +760,7 @@
               >
                 <el-date-picker
                   :disabled="type == 'detail' || item.disabled"
-                  type="date"
+                  :type="item.dateType || 'date'"
                   :placeholder="`选择${item.title}`"
                   v-model="formData[item.key]"
                   @change="
@@ -955,16 +1069,15 @@
                         {
                           required: true,
                           message: `请选择${item.title}`,
-                          trigger: 'change',
-                        },
+                          trigger: 'change'
+                        }
                       ].concat(item.rules)
                     : item.required
                     ? [
                         {
-                          required: true,
-                          message: `请选择${item.title}`,
-                          trigger: 'change',
-                        },
+                          validator: (rule, value, callback) =>
+                            validateCascader(rule, value, callback, item)
+                        }
                       ]
                     : []
                 "
@@ -973,18 +1086,19 @@
                 <el-cascader
                   ref="cascaderAddr"
                   :size="item.size"
-                  :options="regionData"
+                  :options="item.dataList || regionData"
                   clearable
                   :disabled="type == 'detail' || item.disabled"
                   placeholder="请选择:省 / 市 / 区"
                   v-model="formData[item.key].area"
                   @change="
                     (arr) => {
-                      handleAddressFun(item, arr);
+                      handleAddressFun(item, arr)
                     }
                   "
                 ></el-cascader>
                 <el-input
+                  v-if="item.detail"
                   v-model="formData[item.key].detail"
                   placeholder="详细地址"
                   clearable
@@ -1109,6 +1223,7 @@ export default {
       dialogImageUrl: "",
       autouploadList: [],
       formData,
+      loadingPudding:null,
       regionData: regionData,
       defaultProps: {
         children: "children",
@@ -1123,6 +1238,13 @@ export default {
         callback(new Error("首尾不能为空格"));
       } else {
         callback();
+      }
+    },
+    validateCascader (rule, value, callback, item) {
+      if (!value.area || !value.area.length) {
+        callback(new Error(`请选择${item.title}`))
+      } else {
+        callback()
       }
     },
     validateMulDateRequire(rule, value, callback) {
@@ -1141,6 +1263,12 @@ export default {
       } else {
         callback(new Error("请输入数字,不超过5位小数！"));
       }
+    },
+    triggerInputTelphone (item, val) {
+      this.formData[item.key] = String(val).replace(/[^\d]/g, '')
+    },
+    triggerInputCardNum (item, val) {
+      this.formData[item.key] = String(val).replace(/[^\da-zA-Z]/g, '')
     },
     triggerInputFee(item, val) {
       let bit = item.bit || 4;
@@ -1203,6 +1331,20 @@ export default {
     datePickerChange(item, val) {
       item.method && item.method(this.formData, val);
     },
+    closeLoading(){
+      if(this.loadingPudding){
+        this.loadingPudding.close()
+      }
+    },
+    openLoading(){      
+      const loadingPudding=this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      this.loadingPudding=loadingPudding
+    },
     fileExceed(limit) {
       this.$message.warning(`所选文件不超过${limit}个`);
     },
@@ -1210,17 +1352,40 @@ export default {
       this.formData[item.key] = fileList;
     },
     handleSuccess(item, file, fileList) {
-      this.formData[item.key] = fileList.map((unit) => {
+      if(fileList.every(unit=>unit.status!='uploading')){
+        this.closeLoading()
+      }
+      let list = fileList.map((unit) => {
+        let extra={}
+        if(unit.response){
+          if(unit.response.code!=200){
+            this.$message.error(`${unit.name} 上传失败`)
+            extra.status="error"
+          }else{
+            extra.data=unit.response.data[0]
+          }
+        }
         return {
           ...unit,
-          data: unit.response ? unit.response.data[0] : unit.data,
+          data:unit.data,
+          ...extra
         };
       });
+      this.formData[item.key]=list.filter(unit=>unit.status!='error')
     },
-    handleError(item, file, fileList) {
-      console.log("error!!!");
+    handleError(item, file, fileList, err) {
+      this.closeLoading()
+      if (err.status == 403) {
+        this.$message.error("登录失效");
+        this.$router.push({ path: "/backend/login" });
+        localStorage.clear();
+        sessionStorage.clear();
+      } else if (err.status != 200) {
+        this.$message.error(err.msg || "上传文件失败");
+      }
     },
     beforeUpload(file) {
+      this.openLoading()
       const limit_10M = file.size / 1024 / 1024 < 10;
       if (!limit_10M) {
         this.$message.error("请上传10M以下的文件");
