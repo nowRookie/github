@@ -245,7 +245,7 @@
                     :maxlength="item.maxlength || 50"
                     :placeholder="item.placeholder || `请输入${item.title}`"
                     :show-password="item.type == 'password' ? true : false"
-                    :type="item.type||'text'"
+                    :type="item.type || 'text'"
                     @change="(val) => inputChange(item, val)"
                     autocomplete="off"
                     :disabled="type == 'detail' || item.disabled"
@@ -269,28 +269,28 @@
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'change'
+                          trigger: 'change',
                         },
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'blur'
+                          trigger: 'blur',
                         },
-                        { validator: validateTrim, trigger: 'blur' }
+                        { validator: validateTrim, trigger: 'blur' },
                       ].concat(item.rules)
                     : item.required
                     ? [
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'change'
+                          trigger: 'change',
                         },
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'blur'
+                          trigger: 'blur',
                         },
-                        { validator: validateTrim, trigger: 'blur' }
+                        { validator: validateTrim, trigger: 'blur' },
                       ]
                     : []
                 "
@@ -326,28 +326,28 @@
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'change'
+                          trigger: 'change',
                         },
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'blur'
+                          trigger: 'blur',
                         },
-                        { validator: validateTrim, trigger: 'blur' }
+                        { validator: validateTrim, trigger: 'blur' },
                       ].concat(item.rules)
                     : item.required
                     ? [
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'change'
+                          trigger: 'change',
                         },
                         {
                           required: true,
                           message: `请输入${item.title}`,
-                          trigger: 'blur'
+                          trigger: 'blur',
                         },
-                        { validator: validateTrim, trigger: 'blur' }
+                        { validator: validateTrim, trigger: 'blur' },
                       ]
                     : []
                 "
@@ -1034,7 +1034,7 @@
                       handlePrevie(item, file);
                     }
                   "
-                  :on-exceed="fileExceed(item.limit||5)"
+                  :on-exceed="fileExceed(item.limit || 5)"
                   :file-list="formData[item.key]"
                   :auto-upload="true"
                 >
@@ -1069,15 +1069,15 @@
                         {
                           required: true,
                           message: `请选择${item.title}`,
-                          trigger: 'change'
-                        }
+                          trigger: 'change',
+                        },
                       ].concat(item.rules)
                     : item.required
                     ? [
                         {
                           validator: (rule, value, callback) =>
-                            validateCascader(rule, value, callback, item)
-                        }
+                            validateCascader(rule, value, callback, item),
+                        },
                       ]
                     : []
                 "
@@ -1093,7 +1093,7 @@
                   v-model="formData[item.key].area"
                   @change="
                     (arr) => {
-                      handleAddressFun(item, arr)
+                      handleAddressFun(item, arr);
                     }
                   "
                 ></el-cascader>
@@ -1223,7 +1223,7 @@ export default {
       dialogImageUrl: "",
       autouploadList: [],
       formData,
-      loadingPudding:null,
+      loadingPudding: null,
       regionData: regionData,
       defaultProps: {
         children: "children",
@@ -1240,11 +1240,11 @@ export default {
         callback();
       }
     },
-    validateCascader (rule, value, callback, item) {
+    validateCascader(rule, value, callback, item) {
       if (!value.area || !value.area.length) {
-        callback(new Error(`请选择${item.title}`))
+        callback(new Error(`请选择${item.title}`));
       } else {
-        callback()
+        callback();
       }
     },
     validateMulDateRequire(rule, value, callback) {
@@ -1264,11 +1264,11 @@ export default {
         callback(new Error("请输入数字,不超过5位小数！"));
       }
     },
-    triggerInputTelphone (item, val) {
-      this.formData[item.key] = String(val).replace(/[^\d]/g, '')
+    triggerInputTelphone(item, val) {
+      this.formData[item.key] = String(val).replace(/[^\d]/g, "");
     },
-    triggerInputCardNum (item, val) {
-      this.formData[item.key] = String(val).replace(/[^\da-zA-Z]/g, '')
+    triggerInputCardNum(item, val) {
+      this.formData[item.key] = String(val).replace(/[^\da-zA-Z]/g, "");
     },
     triggerInputFee(item, val) {
       let bit = item.bit || 4;
@@ -1331,19 +1331,19 @@ export default {
     datePickerChange(item, val) {
       item.method && item.method(this.formData, val);
     },
-    closeLoading(){
-      if(this.loadingPudding){
-        this.loadingPudding.close()
+    closeLoading() {
+      if (this.loadingPudding) {
+        this.loadingPudding.close();
       }
     },
-    openLoading(){      
-      const loadingPudding=this.$loading({
+    openLoading() {
+      const loadingPudding = this.$loading({
         lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      this.loadingPudding=loadingPudding
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      this.loadingPudding = loadingPudding;
     },
     fileExceed(limit) {
       this.$message.warning(`所选文件不超过${limit}个`);
@@ -1352,29 +1352,29 @@ export default {
       this.formData[item.key] = fileList;
     },
     handleSuccess(item, file, fileList) {
-      if(fileList.every(unit=>unit.status!='uploading')){
-        this.closeLoading()
+      if (fileList.every((unit) => unit.status != "uploading")) {
+        this.closeLoading();
       }
       let list = fileList.map((unit) => {
-        let extra={}
-        if(unit.response){
-          if(unit.response.code!=200){
-            this.$message.error(`${unit.name} 上传失败`)
-            extra.status="error"
-          }else{
-            extra.data=unit.response.data[0]
+        let extra = {};
+        if (unit.response) {
+          if (unit.response.code != 200) {
+            this.$message.error(`${unit.name} 上传失败`);
+            extra.status = "error";
+          } else {
+            extra.data = unit.response.data[0];
           }
         }
         return {
           ...unit,
-          data:unit.data,
-          ...extra
+          data: unit.data,
+          ...extra,
         };
       });
-      this.formData[item.key]=list.filter(unit=>unit.status!='error')
+      this.formData[item.key] = list.filter((unit) => unit.status != "error");
     },
     handleError(item, file, fileList, err) {
-      this.closeLoading()
+      this.closeLoading();
       if (err.status == 403) {
         this.$message.error("登录失效");
         this.$router.push({ path: "/backend/login" });
@@ -1385,7 +1385,7 @@ export default {
       }
     },
     beforeUpload(file) {
-      this.openLoading()
+      this.openLoading();
       const limit_10M = file.size / 1024 / 1024 < 10;
       if (!limit_10M) {
         this.$message.error("请上传10M以下的文件");
@@ -1435,27 +1435,38 @@ export default {
         this.$emit("cancel");
         return;
       }
-      this.$refs.formRef.validate((boolean, object) => {
-        if (boolean) {
-          // 给tree单元，设置checked属性
-          for (let i in this.formData) {
-            if (this.formData[i].type == "tree") {
-              this.formData[i].checked = this.computedTreeData({
-                key: i,
-                data: this.formData[i].data,
-              });
-            }
-          }
-          // 根据type类型为add、edit触发不同方法
-          if (this.type == "add") {
-            this.$emit("add", this.formData, this.params);
-          } else if (this.type == "edit") {
-            this.$emit("edit", this.formData, this.params);
-          }
-        } else {
-          this.$emit("error", object);
+      const needValidList = this.items
+        .filter((unit) => !unit.hide)
+        .map((unit) => unit.key);
+      let isValidPass = true;
+      const errMsgList = [];
+      this.$refs.formRef.validateField(needValidList, (errMsg) => {
+        if (errMsg) {
+          errMsgList.push(errMsg);
         }
       });
+      if (errMsgList.length) {
+        isValidPass = false;
+      }
+      if (isValidPass) {
+        // 给tree单元，设置checked属性
+        for (let i in this.formData) {
+          if (this.formData[i].type == "tree") {
+            this.formData[i].checked = this.computedTreeData({
+              key: i,
+              data: this.formData[i].data,
+            });
+          }
+        }
+        // 根据type类型为add、edit触发不同方法
+        if (this.type == "add") {
+          this.$emit("add", this.formData, this.params);
+        } else if (this.type == "edit") {
+          this.$emit("edit", this.formData, this.params);
+        }
+      } else {
+        this.$emit("error", object);
+      }
     },
     cancel() {
       this.$emit("cancel");
@@ -1506,26 +1517,38 @@ export default {
       };
     },
     // 父组件通过ref调用此方法-获取form数据
-    getData() {
+    
+    getData () {
       return new Promise((resolve, reject) => {
-        this.$refs.formRef.validate((boolean) => {
-          if (boolean) {
-            // 给tree单元，设置checked属性
-            for (let i in this.formData) {
-              if (this.formData[i] && this.formData[i].type == "tree") {
-                this.formData[i].checked = this.computedTreeData({
-                  key: i,
-                  data: this.formData[i].data,
-                });
-              }
-            }
-            resolve(this.formData);
-          } else {
-            reject("验证不通过");
+        const needValidList = this.items
+          .filter((unit) => !unit.hide)
+          .map((unit) => unit.key)
+        let isValidPass = true
+        const errMsgList = []
+        this.$refs.formRef.validateField(needValidList, (errMsg) => {
+          if (errMsg) {
+            errMsgList.push(errMsg)
           }
-        });
-      });
-    },
+        })
+        if (errMsgList.length) {
+          isValidPass = false
+        }
+        if (isValidPass) {
+          // 给tree单元，设置checked属性
+          for (const i in this.formData) {
+            if (this.formData[i] && this.formData[i].type === 'tree') {
+              this.formData[i].checked = this.computedTreeData({
+                key: i,
+                data: this.formData[i].data
+              })
+            }
+          }
+          resolve(this.formData)
+        } else {
+          reject(new Error('验证不通过'))
+        }
+      })
+    }
   },
   watch: {
     items() {},
