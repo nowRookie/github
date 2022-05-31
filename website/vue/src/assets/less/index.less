@@ -30,13 +30,13 @@ h6 {
 }
 
 @font-face {
-  font-family: 'iconfont';
-  src: url('../font/iconfont.eot');
-  src: url('../font/iconfont.eot?#iefix') format('embedded-opentype'),
-    url('../font/iconfont.woff2') format('woff2'),
-    url('../font/iconfont.woff') format('woff'),
-    url('../font/iconfont.ttf') format('truetype'),
-    url('../font/iconfont.svg#iconfont') format('svg');
+  font-family: "iconfont";
+  src: url("../font/iconfont.eot");
+  src: url("../font/iconfont.eot?#iefix") format("embedded-opentype"),
+    url("../font/iconfont.woff2") format("woff2"),
+    url("../font/iconfont.woff") format("woff"),
+    url("../font/iconfont.ttf") format("truetype"),
+    url("../font/iconfont.svg#iconfont") format("svg");
 }
 
 .iconfont {
@@ -55,30 +55,6 @@ a,
   &:hover {
     cursor: pointer;
   }
-}
-
-.w20 {
-  width: 20%;
-}
-
-.w25 {
-  width: 25%
-}
-
-.w33 {
-  width: 33.33%;
-}
-
-.w50 {
-  width: 50%;
-}
-
-.w100 {
-  width: 100%;
-}
-
-.h100 {
-  height: 100%;
 }
 
 .tl {
@@ -165,6 +141,9 @@ a,
 .border {
   border: 1px solid #ddd;
 }
+.border-box {
+  box-sizing: border-box;
+}
 
 .bt {
   border-top: 1px solid #ddd;
@@ -218,6 +197,10 @@ a,
   justify-content: flex-start;
 }
 
+.flex-end {
+  justify-content: flex-end;
+}
+
 .vertical {
   display: flex;
   align-items: center;
@@ -230,6 +213,13 @@ a,
 }
 
 .scroll {
+  &-x {
+    overflow-x: auto;
+  }
+  &-y {
+    overflow-y: auto;
+  }
+
   &::-webkit-scrollbar {
     width: 5px;
     height: 5px;
@@ -262,33 +252,33 @@ a,
   #margin((@value+1));
 
   .m@{value} {
-    margin:~"@{value}px";
+    margin: ~"@{value}px";
   }
 
   .mt@{value} {
-    margin-top:~"@{value}px";
+    margin-top: ~"@{value}px";
   }
 
   .mr@{value} {
-    margin-right:~"@{value}px";
+    margin-right: ~"@{value}px";
   }
 
   .mb@{value} {
-    margin-bottom:~"@{value}px";
+    margin-bottom: ~"@{value}px";
   }
 
   .ml@{value} {
-    margin-left:~"@{value}px";
+    margin-left: ~"@{value}px";
   }
 
   .mx@{value} {
-    margin-left:~"@{value}px";
-    margin-right:~"@{value}px";
+    margin-left: ~"@{value}px";
+    margin-right: ~"@{value}px";
   }
 
   .my@{value} {
-    margin-top:~"@{value}px";
-    margin-bottom:~"@{value}px";
+    margin-top: ~"@{value}px";
+    margin-bottom: ~"@{value}px";
   }
 }
 
@@ -298,33 +288,33 @@ a,
   #padding((@value+1));
 
   .p@{value} {
-    padding:~"@{value}px";
+    padding: ~"@{value}px";
   }
 
   .pt@{value} {
-    padding-top:~"@{value}px";
+    padding-top: ~"@{value}px";
   }
 
   .pr@{value} {
-    padding-right:~"@{value}px";
+    padding-right: ~"@{value}px";
   }
 
   .pb@{value} {
-    padding-bottom:~"@{value}px";
+    padding-bottom: ~"@{value}px";
   }
 
   .pl@{value} {
-    padding-left:~"@{value}px";
+    padding-left: ~"@{value}px";
   }
 
   .px@{value} {
-    padding-left:~"@{value}px";
-    padding-right:~"@{value}px";
+    padding-left: ~"@{value}px";
+    padding-right: ~"@{value}px";
   }
 
   .py@{value} {
-    padding-top:~"@{value}px";
-    padding-bottom:~"@{value}px";
+    padding-top: ~"@{value}px";
+    padding-bottom: ~"@{value}px";
   }
 }
 
@@ -334,7 +324,7 @@ a,
   #font((@value+1));
 
   .font@{value} {
-    font-size:~"@{value}px";
+    font-size: ~"@{value}px";
   }
 }
 
@@ -344,30 +334,41 @@ a,
   #widthPercent((@value+1));
 
   .w@{value} {
-    width:~"@{value}%";
+    width: ~"@{value}%";
   }
 
   .h@{value} {
-    height:~"@{value}%"
+    height: ~"@{value}%";
   }
 
+  .w@{value}px {
+    width: ~"@{value}px";
+  }
+
+  .h@{value}px {
+    height: ~"@{value}px";
+  }
+
+  .lh@{value}px {
+    line-height: ~"@{value}px";
+  }
 }
 
 #widthPercent();
 
-#widthPx(@value: 0) when(@value=<1000) {
+#widthPx(@value: 100) when(@value=<1000) {
   #widthPx((@value+5));
 
   .w@{value}px {
-    width:~"@{value}px";
+    width: ~"@{value}px";
   }
 
   .h@{value}px {
-    height:~"@{value}px"
+    height: ~"@{value}px";
   }
 
   .lh@{value}px {
-    line-height:~"@{value}px"
+    line-height: ~"@{value}px";
   }
 }
 
@@ -377,19 +378,19 @@ a,
   #trbl((@value+1));
 
   .top@{value} {
-    top:~"@{value}px";
+    top: ~"@{value}px";
   }
 
   .right@{value} {
-    right:~"@{value}px";
+    right: ~"@{value}px";
   }
 
   .bottom@{value} {
-    bottom:~"@{value}px";
+    bottom: ~"@{value}px";
   }
 
   .left@{value} {
-    left:~"@{value}px";
+    left: ~"@{value}px";
   }
 }
 
