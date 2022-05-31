@@ -30,7 +30,19 @@
         :height="tableHeight"
         @selection-change="handleSelectionChange"
       >
+        <el-table-column width="55" v-if="limit === 1">
+          <template slot-scope="scope">
+            <div class="tc">
+              <el-radio
+                v-model="radioVal"
+                :label="scope.row[rowkey]"
+                @change="chooseSingle(scope.row)"
+              ></el-radio>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column
+          v-else
           type="selection"
           width="55"
           :selectable="isSelectable"
@@ -111,6 +123,10 @@ export default {
       type: Number || null,
       default: null
     },
+    rowkey: {
+      type: String,
+      default: 'id'
+    },
     tableOptions: {
       type: Object,
       default: () => ({
@@ -142,9 +158,15 @@ export default {
       if (unit.httpDict) {
         this.getDictionary(unit.key, unit.httpDict)
       }
+      if (unit.httpPromise) {
+        unit.httpPromise().then((list) => {
+          this.updateItemsDataList(unit.key, list)
+        })
+      }
       return unit
     })
     return {
+      radioVal: '',
       inputItems,
       multipleSelection: [],
       basetableData: [],
@@ -164,6 +186,9 @@ export default {
       if (row.checkable === false) return false
       return true
     },
+    chooseSingle (row) {
+      this.multipleSelection = [row]
+    },
     inputSearch () {
       this.getList()
     },
@@ -182,6 +207,13 @@ export default {
       this.getList()
     },
     ok () {
+      if (!this.multipleSelection.length) {
+        this.$message({
+          type: 'warning',
+          message: '请选择数据'
+        })
+        return
+      }
       if (this.limit && this.multipleSelection.length > this.limit) {
         this.$message({
           type: 'warning',
@@ -194,6 +226,14 @@ export default {
     cancel () {
       this.$emit('cancel')
     },
+    updateItemsDataList (key, list) {
+      this.inputItems = this.inputItems.map((unit) => {
+        if (unit.key === key) {
+          unit.dataList = list
+        }
+        return unit
+      })
+    },
     // 获取数据字典数据
     getDictionary (key, ditcKey) {
       SysDictDataSelectDictDataInfo({ params: { dictType: ditcKey } }).then(
@@ -203,12 +243,7 @@ export default {
             label: unit.dictLabel,
             value: unit.id
           }))
-          this.inputItems = this.inputItems.map((unit) => {
-            if (unit.key === key) {
-              unit.dataList = list
-            }
-            return unit
-          })
+          this.updateItemsDataList(key, list)
         }
       )
     },
@@ -230,7 +265,7 @@ export default {
             this.baseTablePages = {
               pageNo: res?.currPage ?? 1,
               pageSize: res?.pageSize ?? 10,
-              total: res?.totalCount ?? 1
+              total: res?.total ?? 1
             }
           })
       })
@@ -241,6 +276,8 @@ export default {
     visible (boolean) {
       if (boolean) {
         // 回显数据
+        this.radioVal = ''
+        this.multipleSelection = []
         formDataEchoData({ items: this.inputItems })
         this.$nextTick(() => {
           this.getList()
@@ -250,4 +287,8 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+/deep/.el-radio__label {
+  display: none;
+}
+</style>

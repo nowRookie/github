@@ -31,6 +31,7 @@
               :name="item.key"
               :index="scope.$index"
               :row="scope.row"
+              
               :column="scope.column"
               v-if="item.type == 'slot'"
             ></slot>

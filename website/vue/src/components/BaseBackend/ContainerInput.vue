@@ -633,6 +633,8 @@
               :disabled="disabled || item.disabled"
               :type="item.dateType || 'date'"
               :placeholder="`选择${item.title}`"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
               v-model="formData[item.key]"
               @change="
                 (val) => {
@@ -1070,9 +1072,7 @@
         <el-col v-if="!content" :span="6">
           <div class="pl20 mb10">
             <el-button type="primary" @click="ok">查询</el-button>
-            <el-button type="primary" plain @click="reset">
-              重置
-            </el-button>
+            <el-button type="primary" plain @click="reset"> 重置 </el-button>
           </div>
           <slot name="operate" :data="formData"></slot>
         </el-col>

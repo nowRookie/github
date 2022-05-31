@@ -29,22 +29,25 @@ export default {
     inputVal: {
       get () {
         return this.value.map((unit) => unit.name).join(',')
-      },
-      set (value) {
-        if (value instanceof Array) {
-          this.$emit('change', value)
-        } else {
-          this.$emit('change', [])
-        }
-        this.$emit('after-opreate')
       }
     }
   },
   data () {
     return {}
   },
-  methods: {},
-  mounted () {}
+  methods: {
+    openDialog () {
+      if (this.$attrs.open && this.$attrs.open instanceof Function) {
+        this.$attrs.open(this.value)
+      }
+    }
+  },
+  mounted () {},
+  watch: {
+    value (newVal) {
+      // console.log('监听watch变了', newVal)
+    }
+  }
 }
 </script>
 <style lang="less" scoped></style>

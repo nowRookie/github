@@ -2,11 +2,17 @@
   <span>
     <el-input
       v-model="inputVal"
-      @click.native="openDialog"
       :placeholder="`请选择${$attrs.title}`"
       v-bind="$attrs"
       readonly
-    ></el-input>
+    >
+      <el-button
+        size="small"
+        slot="append"
+        icon="el-icon-search"
+        @click.native="openDialog"
+      ></el-button>
+    </el-input>
     <outerOrgDialog
       :title="`选择${$attrs.title}`"
       :type="dialogType"

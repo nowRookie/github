@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      v-if="basetableData.length"
+      v-if="forceVisible || basetableData.length"
       ref="multipleTable"
       :data="basetableData"
       border
@@ -86,7 +86,7 @@ export default {
     event: 'change'
   },
   props: {
-    height: { type: Number, default: 529 },
+    height: { type: Number || null, default: 529 },
     items: {
       type: Array,
       default: () => []
@@ -98,6 +98,10 @@ export default {
     addExtraData: {
       type: Object,
       default: () => ({})
+    },
+    forceVisible: {
+      type: Boolean,
+      default: false
     },
     btns: {
       type: Array,

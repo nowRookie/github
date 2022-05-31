@@ -1,6 +1,7 @@
 <template>
   <div class="affix">
     <el-upload
+      v-if="!$attrs.disabled"
       class="upload-demo"
       name="files"
       :accept="accept"
@@ -33,8 +34,10 @@
           <el-button type="text" @click="downloadFile(scope.row)"
             >下载</el-button
           >
-          <el-divider direction="vertical"></el-divider>
-          <el-button type="text" @click="delRow(scope)">删除</el-button>
+          <span v-if="!$attrs.disabled">
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="text" @click="delRow(scope)">删除</el-button>
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -43,6 +46,7 @@
 
 <script>
 import { env } from '@/network/request.js'
+import { globalDownloadBaseFileId } from '@/network/global'
 export default {
   model: {
     prop: 'value',
@@ -91,7 +95,6 @@ export default {
     },
     fileList: {
       get () {
-        console.log('%%%%%%%%%%%%%%', this.value)
         return this.value
       },
       set (list) {
@@ -148,7 +151,7 @@ export default {
       this.fileList = currentList
     },
     downloadFile (row) {
-      console.log(row)
+      globalDownloadBaseFileId(row.id)
     },
     delRow (scope) {
       const index = scope.$index

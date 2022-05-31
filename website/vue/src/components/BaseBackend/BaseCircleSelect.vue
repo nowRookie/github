@@ -1,6 +1,7 @@
 <template>
   <div class="row relative">
     <el-select
+      :disabled="disabled"
       class="w150px"
       v-model="selected.circle"
       @change="changeCircle"
@@ -13,6 +14,7 @@
     <div class="ml10">
       <!-- 一次性周期 -->
       <el-select
+        :disabled="disabled"
         class="w150px"
         v-if="selected.circle === 1"
         v-model="selected.period"
@@ -25,6 +27,7 @@
       </el-select>
       <!-- 周期性任务 -->
       <el-select
+        :disabled="disabled"
         class="w100px"
         v-else
         v-model="selected.period"
@@ -43,6 +46,7 @@
     <!-- 时间范围 -->
     <div class="realative ml10">
       <el-date-picker
+        :disabled="disabled"
         v-if="selected.circle == 1 && selected.period === 1"
         v-model="selected.singleDate"
         type="date"
@@ -51,6 +55,7 @@
       >
       </el-date-picker>
       <el-date-picker
+        :disabled="disabled"
         class="w100px"
         v-else
         v-model="selected.rangeDate"
@@ -73,6 +78,7 @@
       <span v-if="selected.period === 2">
         <span>每周</span>
         <el-select
+          :disabled="disabled"
           class="ml5 w100px"
           v-model="selected.day"
           placeholder="请选择"
@@ -92,6 +98,7 @@
       <span v-if="selected.period === 3">
         <span>每月</span>
         <el-select
+          :disabled="disabled"
           class="ml5 w100px"
           v-model="selected.date"
           placeholder="请选择"
@@ -111,6 +118,7 @@
       <span v-if="selected.period === 4">
         <span>每季度</span>
         <el-select
+          :disabled="disabled"
           class="ml5 w150px"
           v-model="selected.quarterMonth"
           placeholder="请选择"
@@ -122,6 +130,7 @@
           <el-option label="第4个月" :value="4"> </el-option>
         </el-select>
         <el-select
+          :disabled="disabled"
           class="ml5 w100px"
           v-model="selected.date"
           placeholder="请选择"
@@ -140,7 +149,12 @@
       <!-- 年 -->
       <span v-if="selected.period === 5">
         <span>每年</span>
-        <el-select class="ml5 w100px" v-model="selected.month" placeholder="请选择">
+        <el-select
+          :disabled="disabled"
+          class="ml5 w100px"
+          v-model="selected.month"
+          placeholder="请选择"
+        >
           <el-option label="请选择" value=""> </el-option>
           <el-option
             v-for="item in monthOptions"
@@ -150,7 +164,12 @@
           >
           </el-option>
         </el-select>
-        <el-select class="ml5 w100px" v-model="selected.date" placeholder="请选择">
+        <el-select
+          :disabled="disabled"
+          class="ml5 w100px"
+          v-model="selected.date"
+          placeholder="请选择"
+        >
           <el-option label="请选择" value=""> </el-option>
           <el-option
             v-for="item in dateOptions"
@@ -197,6 +216,10 @@ export default {
         quarterMonth: '', // 每个季度的x月
         month: '' // 1、2、3...12月
       })
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

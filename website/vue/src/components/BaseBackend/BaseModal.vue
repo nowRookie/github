@@ -706,8 +706,8 @@
                 <el-col :span="11">
                   <el-date-picker
                     :disabled="type == 'detail' || item.disabled"
-                    type="date"
-                    placeholder="开始日期"
+                    :type="item.dateType || 'date'"
+                    :placeholder="item['start-placeholder'] || '开始日期'"
                     v-model="formData[item.key].start"
                     :picker-options="{
                       disabledDate(date) {
@@ -721,8 +721,8 @@
                 <el-col :span="11">
                   <el-date-picker
                     :disabled="type == 'detail' || item.disabled"
-                    type="date"
-                    placeholder="结束日期"
+                    :type="item.dateType || 'date'"
+                    :placeholder="item['end-placeholder'] || '结束日期'"
                     v-model="formData[item.key].end"
                     :picker-options="{
                       disabledDate(date) {
@@ -775,6 +775,8 @@
                   :disabled="type == 'detail' || item.disabled"
                   :type="item.dateType || 'date'"
                   :placeholder="`选择${item.title}`"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
                   v-model="formData[item.key]"
                   @change="
                     (val) => {
@@ -1227,10 +1229,12 @@
           v-bind="{ data: formData, params: params }"
         ></slot>
         <div v-else>
-          <el-button type="primary" @click="genDebugData">
+          <!-- <el-button type="primary" @click="genDebugData">
             生成测试数据
-          </el-button>
-          <el-button type="primary" @click="ok">确定</el-button>
+          </el-button> -->
+          <el-button type="primary" v-if="type != 'detail'" @click="ok"
+            >确定</el-button
+          >
           <el-button @click="cancel">取消</el-button>
         </div>
       </footer>
@@ -1516,6 +1520,7 @@ export default {
           item.type === 'slot' ||
           item.type === 'uploadFile' ||
           item.type === 'autoupload' ||
+          item.type === 'select' ||
           item.valueType === Array
         ) {
         } else if (item.type === 'date') {

@@ -22,7 +22,15 @@
         :key="index"
         align="center"
         :width="item.width || ''"
-        :fixed="item.fixed || false"
+        :min-width="
+          item.width ? item.width : item.type == 'index' ? '50px' : '160px'
+        "
+        :fixed="
+          item.fixed ||
+          index === 0 ||
+          (index == tableItems.length - 1 ? 'right' : null) ||
+          false
+        "
         :sortable="item.sortable === undefined ? false : item.sortable"
       >
         <template slot-scope="scope">
@@ -31,20 +39,36 @@
             :index="scope.$index"
             :row="scope.row"
             :column="scope.column"
-            v-if="item.type == 'slot'"
-          ></slot>
-          <slot
-            :name="item.slot"
-            :index="scope.$index"
-            :row="scope.row"
-            :column="scope.column"
-            v-else-if="item.slot"
+            v-if="item.type == 'slot' || item.slot"
           ></slot>
           <span v-else-if="item.type == 'index'">{{ scope.$index + 1 }}</span>
-          <span v-else-if="isTemplateFun(item)">{{
-            item.template(scope.row)
-          }}</span>
-          <span v-else>{{ scope.row[item.key] }}</span>
+          <el-tooltip
+            v-else-if="item.type == 'html'"
+            class="item"
+            effect="dark"
+            :content="item.template(scope.row) + ''"
+            placement="top"
+          >
+            <div class="ellipsis" v-html="item.template(scope.row)"></div>
+          </el-tooltip>
+          <el-tooltip
+            v-else-if="isTemplateFun(item)"
+            class="item"
+            effect="dark"
+            :content="item.template(scope.row) + ''"
+            placement="top"
+          >
+            <div class="ellipsis">{{ item.template(scope.row) }}</div>
+          </el-tooltip>
+          <el-tooltip
+            v-else
+            class="item"
+            effect="dark"
+            :content="scope.row[item.key] + ''"
+            placement="top"
+          >
+            <div class="ellipsis">{{ scope.row[item.key] }}</div>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -72,8 +96,8 @@ export default {
       required: true
     },
     pages: {
-      type: Object,
-      required: true
+      type: Object || null,
+      default: null
     },
     data: {
       type: Array,
@@ -104,7 +128,7 @@ export default {
   computed: {
     tableItems () {
       return this.items.map((unit, index) => {
-        if (!unit.key) {
+        if (!unit.key || unit.key === '') {
           unit.key = `key${index}`
         }
         return unit

@@ -1,10 +1,11 @@
 <template>
   <div class="affix">
     <el-upload
+      v-if="!disabled"
       class="upload-demo"
       :name="name"
       :accept="accept"
-      :action="action"
+      :action="uploadAction"
       :headers="uploadHeaders"
       :data="uploadParams"
       :file-list="uploadFileList"
@@ -48,6 +49,7 @@
 
 <script>
 import { env } from '@/network/request.js'
+import { globalDownloadBaseFileId } from '@/network/global'
 export default {
   model: {
     prop: 'fileList',
@@ -80,6 +82,10 @@ export default {
         return '*'
       }
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     fileList: {
       type: Array,
       default () {
@@ -89,12 +95,14 @@ export default {
   },
   data () {
     return {
-      action: env + '/file/uploadFile',
       uploadFileList: [],
       currentList: [...this.fileList]
     }
   },
   computed: {
+    uploadAction () {
+      return env + '/file/uploadFile'
+    },
     uploadParams () {
       return Object.assign({ type: 1 }, this.params)
     },
@@ -141,7 +149,7 @@ export default {
       this.currentList.splice(lastIndex, 1)
     },
     downloadFile (row) {
-      console.log(row)
+      globalDownloadBaseFileId(row.id)
     },
     delRow (scope) {
       const index = scope.$index
