@@ -4,9 +4,9 @@ context.resolve()、context.keys()、context.id
 const files = require.context("../components", true, /\.vue$/);
 const components = {};
 files.keys().forEach((url) => {
-  let urlKey = url.replace(/.*\/(.*)\.vue$/, "$1"); //文件名作为key
+  let fileName = url.replace(/.*\/(.*)\.vue$/, "$1"); //文件名作为key
   let fileDefault = files(url).default; //export default 文件内容
-  components[urlKey] = fileDefault;
+  components[fileName] = fileDefault;
 });
 
 const install = (Vue) => {

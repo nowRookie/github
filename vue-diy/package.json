@@ -4,16 +4,14 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
-    "dev": "vue-cli-service serve --port=3005 --open --copy",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest lib --target lib ./src/components/index.js",
-    "lint": "vue-cli-service lint"
+    "compiler": "node webpack/compiler.js",
+    "dev": "webpack --config webpack/develop.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "core-js": "^3.6.5",
     "echarts": "^5.3.2",
     "element-ui": "^2.15.8",
+    "json5": "^2.2.1",
     "less": "^4.1.2",
     "less-loader": "^11.0.0",
     "mockjs": "^1.1.0",
@@ -23,19 +21,16 @@
     "sass": "^1.52.1",
     "sass-loader": "^13.0.0",
     "tinymce": "^6.0.3",
-    "vue": "^2.6.11",
     "vue-amap": "^0.5.10",
     "vue-router": "^4.0.15",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.15",
-    "@vue/cli-plugin-eslint": "~4.5.15",
-    "@vue/cli-service": "~4.5.15",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue": "^3.2.37",
+    "vue-loader": "^17.0.0",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.9.2"
   },
   "eslintConfig": {
     "root": true,
