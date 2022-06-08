@@ -1,6 +1,11 @@
-import { createApp } from "vue";
+import Vue from "vue";
 import App from "./index.vue";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 
-const app = createApp(App);
+Vue.use(ElementUI);
 
-app.mount("#app");
+new Vue({
+  el: "#app",
+  render: (h) => h(App),
+});
