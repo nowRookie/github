@@ -5,32 +5,43 @@
   "main": "dist/index.js",
   "scripts": {
     "compiler": "node webpack/compiler.js",
-    "dev": "webpack --config webpack/develop.js"
+    "dev": "webpack serve --open --config webpack/develop.js",
+    "build": "webpack --config webpack/develop.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "echarts": "^5.3.2",
     "element-ui": "^2.15.8",
     "json5": "^2.2.1",
-    "less": "^4.1.2",
-    "less-loader": "^11.0.0",
     "mockjs": "^1.1.0",
     "moment": "^2.29.3",
-    "node-sass": "^7.0.1",
     "qs": "^6.10.3",
-    "sass": "^1.52.1",
-    "sass-loader": "^13.0.0",
     "tinymce": "^6.0.3",
     "vue-amap": "^0.5.10",
     "vue-router": "^4.0.15",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/plugin-proposal-export-default-from": "^7.17.12",
+    "@babel/preset-env": "^7.18.2",
+    "@vue/cli-plugin-babel": "^5.0.4",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
+    "less": "^4.1.2",
+    "less-loader": "^11.0.0",
+    "node-sass": "^7.0.1",
+    "process": "^0.11.10",
+    "sass": "^1.52.1",
+    "sass-loader": "^13.0.0",
     "vue": "^3.2.37",
     "vue-loader": "^17.0.0",
+    "vue-style-loader": "^4.1.3",
     "vue-template-compiler": "^2.6.14",
     "webpack": "^5.73.0",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.2"
   },
   "eslintConfig": {
     "root": true,
