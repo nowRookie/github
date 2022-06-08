@@ -53,7 +53,6 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      title: "vue-diy",
       template: resolve(__dirname, "../src/index.html"),
     }),
     new webpack.ProvidePlugin({
