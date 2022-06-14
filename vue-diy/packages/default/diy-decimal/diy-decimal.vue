@@ -13,58 +13,59 @@
 </template>
 <script>
 export default {
+  name:'diy-decimal',
   model: {
-    event: 'change',
-    prop: 'value'
+    event: "change",
+    prop: "value",
   },
   props: {
-    value: { type: [Number, String], default: () => '' }
+    value: { type: [Number, String], default: () => "" },
   },
   components: {},
   computed: {
     inputVal: {
-      get () {
-        return this.value
+      get() {
+        return this.value;
       },
-      set (value) {
-        this.$emit('change', value)
-      }
-    }
+      set(value) {
+        this.$emit("change", value);
+      },
+    },
   },
-  data () {
+  data() {
     return {
-      visible: false
-    }
+      visible: false,
+    };
   },
   methods: {
-    triggerInput (item, val) {
-      const bit = item.bit || 4 // 限制4位小数
+    triggerInput(item, val) {
+      const bit = item.bit || 4; // 限制4位小数
       let result = String(val)
-        .replace(/[^\d.-]|^\./g, '') // 只能填数字负号和小数点
-        .replace(/\.{2}/g, '.') // 不能连续填2个小数点
-        .replace(/(-.*)-/, '$1') // 不能出现两个负号
-        .replace(/^(-?)0(\d{1})/g, '$1$2') // 以0开头时，只展示整数部分
+        .replace(/[^\d.-]|^\./g, "") // 只能填数字负号和小数点
+        .replace(/\.{2}/g, ".") // 不能连续填2个小数点
+        .replace(/(-.*)-/, "$1") // 不能出现两个负号
+        .replace(/^(-?)0(\d{1})/g, "$1$2") // 以0开头时，只展示整数部分
         // .replace(/^(-?[1-9]\d*|0)(\.\d{1,4})(\.|\d{1})?$/, '$1$2')
         .replace(
           new RegExp(
-            '^(\\-?[1-9]\\d*|\\-?0)(\\.\\d{1,' + bit + '})(.|\\d{1})?$'
+            "^(\\-?[1-9]\\d*|\\-?0)(\\.\\d{1," + bit + "})(.|\\d{1})?$"
           ),
-          '$1$2'
-        )
+          "$1$2"
+        );
       if (item.max) {
         if (Number(result) > item.max) {
-          result = item.max
+          result = item.max;
         }
       }
       if (item.min) {
         if (Number(result) < item.min) {
-          result = item.min
+          result = item.min;
         }
       }
-      this.inputVal = result
-    }
+      this.inputVal = result;
+    },
   },
-  mounted () {}
-}
+  mounted() {},
+};
 </script>
 <style lang="less" scoped></style>

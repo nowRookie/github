@@ -13,12 +13,13 @@
 </template>
 <script>
 export default {
+  name: "diy-int",
   model: {
     event: "change",
     prop: "value",
   },
   props: {
-    value: { type: [Number, String], default: () => "" },
+    value: { type: [Number, String], default: "" },
   },
   components: {},
   computed: {
@@ -37,28 +38,19 @@ export default {
     };
   },
   methods: {
-    triggerInput(item, val) {
-      const bit = item.bit || 4; // 限制4位小数
+    triggerInput($attrs, val) {
       let result = String(val)
-        .replace(/[^\d.-]|^\./g, "") // 只能填数字负号和小数点
-        .replace(/\.{2}/g, ".") // 不能连续填2个小数点
-        .replace(/(-.*)-/, "$1") // 不能出现两个负号
-        .replace(/^(-?)0(\d{1})/g, "$1$2") // 以0开头时，只展示整数部分
-        // .replace(/^(-?[1-9]\d*|0)(\.\d{1,4})(\.|\d{1})?$/, '$1$2')
-        .replace(
-          new RegExp(
-            "^(\\-?[1-9]\\d*|\\-?0)(\\.\\d{1," + bit + "})(.|\\d{1})?$"
-          ),
-          "$1$2"
-        );
-      if (item.max) {
-        if (Number(result) > item.max) {
-          result = item.max;
+        .replace(/[^\d]/g, '') // 只能填数字
+        .replace(/^0+$/, '0') // 全部填写0时只显示一个0
+        .replace(/^0(\d{1})/g, '$1') // 以0开头的整数，只展示整数部分;
+      if ($attrs.max) {
+        if (Number(result) > $attrs.max) {
+          result = $attrs.max;
         }
       }
-      if (item.min) {
-        if (Number(result) < item.min) {
-          result = item.min;
+      if ($attrs.min) {
+        if (Number(result) < $attrs.min) {
+          result = $attrs.min;
         }
       }
       this.inputVal = result;

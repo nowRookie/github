@@ -1,0 +1,156 @@
+.mxauto {
+  margin: 0 auto;
+}
+
+// margin值
+#margin(@value: 0) when(@value=<100) {
+  #margin((@value+1));
+
+  .m@{value} {
+    margin: ~"@{value}px";
+  }
+
+  .mt@{value} {
+    margin-top: ~"@{value}px";
+  }
+
+  .mr@{value} {
+    margin-right: ~"@{value}px";
+  }
+
+  .mb@{value} {
+    margin-bottom: ~"@{value}px";
+  }
+
+  .ml@{value} {
+    margin-left: ~"@{value}px";
+  }
+
+  .mx@{value} {
+    margin-left: ~"@{value}px";
+    margin-right: ~"@{value}px";
+  }
+
+  .my@{value} {
+    margin-top: ~"@{value}px";
+    margin-bottom: ~"@{value}px";
+  }
+}
+
+#margin();
+
+// padding值
+#padding(@value: 0) when(@value=<100) {
+  #padding((@value+1));
+
+  .p@{value} {
+    padding: ~"@{value}px";
+  }
+
+  .pt@{value} {
+    padding-top: ~"@{value}px";
+  }
+
+  .pr@{value} {
+    padding-right: ~"@{value}px";
+  }
+
+  .pb@{value} {
+    padding-bottom: ~"@{value}px";
+  }
+
+  .pl@{value} {
+    padding-left: ~"@{value}px";
+  }
+
+  .px@{value} {
+    padding-left: ~"@{value}px";
+    padding-right: ~"@{value}px";
+  }
+
+  .py@{value} {
+    padding-top: ~"@{value}px";
+    padding-bottom: ~"@{value}px";
+  }
+}
+
+#padding();
+
+#font(@value: 12) when(@value=<100) {
+  #font((@value+1));
+
+  .font@{value} {
+    font-size: ~"@{value}px";
+  }
+}
+
+#font();
+
+// 宽/高 百分比/px，0到100，步长1
+#widthPercent(@value: 0) when(@value=<100) {
+  #widthPercent((@value+1));
+
+  .w@{value} {
+    width: ~"@{value}%";
+  }
+
+  .h@{value} {
+    height: ~"@{value}%";
+  }
+
+  .w@{value}px {
+    width: ~"@{value}px";
+  }
+
+  .h@{value}px {
+    height: ~"@{value}px";
+  }
+
+  .lh@{value}px {
+    line-height: ~"@{value}px";
+  }
+}
+
+#widthPercent();
+
+// 宽/高 px，100到1000，步长5px
+#widthPx(@value: 100) when(@value=<1000) {
+  #widthPx((@value+5));
+
+  .w@{value}px {
+    width: ~"@{value}px";
+  }
+
+  .h@{value}px {
+    height: ~"@{value}px";
+  }
+
+  .lh@{value}px {
+    line-height: ~"@{value}px";
+  }
+}
+
+#widthPx();
+
+// 上右下左(常配合position:absolute)
+#trbl(@value: 0) when(@value=<100) {
+  #trbl((@value+1));
+
+  .top@{value} {
+    top: ~"@{value}px";
+  }
+
+  .right@{value} {
+    right: ~"@{value}px";
+  }
+
+  .bottom@{value} {
+    bottom: ~"@{value}px";
+  }
+
+  .left@{value} {
+    left: ~"@{value}px";
+  }
+}
+
+#trbl();

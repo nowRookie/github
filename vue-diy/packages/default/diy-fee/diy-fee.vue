@@ -19,7 +19,7 @@ export default {
     prop: "value",
   },
   props: {
-    value: { type: [Number, String], default: () => "" },
+    value: { type: [Number, String], default: "" },
   },
   components: {},
   computed: {
