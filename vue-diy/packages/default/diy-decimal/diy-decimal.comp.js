@@ -1,7 +1,7 @@
-import DiyDecimal from "./diy-decimal.vue"
+import DiyDecimal from './diy-decimal.vue'
 
 export default {
-  install(Vue){
-    Vue.component(DiyDecimal.name,DiyDecimal)
+  install (Vue) {
+    Vue.component(DiyDecimal.name, DiyDecimal)
   }
 }

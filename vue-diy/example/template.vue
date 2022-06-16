@@ -2,18 +2,16 @@
   <div></div>
 </template>
 <script>
-export default {  
-  name: "",
+export default {
+  name: '',
   props: {},
   components: {},
-  data() {
-    return {
-    };
+  data () {
+    return {}
   },
-  computed: {
-  },
+  computed: {},
   methods: {},
-  mounted() {},
-  watch: {},
+  mounted () {},
+  watch: {}
 }
 </script>

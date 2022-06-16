@@ -13,50 +13,50 @@
 </template>
 <script>
 export default {
-  name: "diy-int",
+  name: 'diy-int',
   model: {
-    event: "change",
-    prop: "value",
+    event: 'change',
+    prop: 'value'
   },
   props: {
-    value: { type: [Number, String], default: "" },
+    value: { type: [Number, String], default: '' }
   },
   components: {},
   computed: {
     inputVal: {
-      get() {
-        return this.value;
+      get () {
+        return this.value
       },
-      set(value) {
-        this.$emit("change", value);
-      },
-    },
+      set (value) {
+        this.$emit('change', value)
+      }
+    }
   },
-  data() {
+  data () {
     return {
-      visible: false,
-    };
+      visible: false
+    }
   },
   methods: {
-    triggerInput($attrs, val) {
+    triggerInput ($attrs, val) {
       let result = String(val)
         .replace(/[^\d]/g, '') // 只能填数字
         .replace(/^0+$/, '0') // 全部填写0时只显示一个0
         .replace(/^0(\d{1})/g, '$1') // 以0开头的整数，只展示整数部分;
       if ($attrs.max) {
         if (Number(result) > $attrs.max) {
-          result = $attrs.max;
+          result = $attrs.max
         }
       }
       if ($attrs.min) {
         if (Number(result) < $attrs.min) {
-          result = $attrs.min;
+          result = $attrs.min
         }
       }
-      this.inputVal = result;
-    },
+      this.inputVal = result
+    }
   },
-  mounted() {},
-};
+  mounted () {}
+}
 </script>
 <style lang="less" scoped></style>

@@ -13,59 +13,59 @@
 </template>
 <script>
 export default {
-  name: "diy-fee",
+  name: 'diy-fee',
   model: {
-    event: "change",
-    prop: "value",
+    event: 'change',
+    prop: 'value'
   },
   props: {
-    value: { type: [Number, String], default: "" },
+    value: { type: [Number, String], default: '' }
   },
   components: {},
   computed: {
     inputVal: {
-      get() {
-        return this.value;
+      get () {
+        return this.value
       },
-      set(value) {
-        this.$emit("change", value);
-      },
-    },
+      set (value) {
+        this.$emit('change', value)
+      }
+    }
   },
-  data() {
+  data () {
     return {
-      visible: false,
-    };
+      visible: false
+    }
   },
   methods: {
-    triggerInput($attrs, val) {
-      const bit = $attrs.bit || 4; // 限制4位小数
+    triggerInput ($attrs, val) {
+      const bit = $attrs.bit || 4 // 限制4位小数
       let result = String(val)
-        .replace(/[^\d.]|^\./g, "") // 只能填数字或者小数点
-        .replace(/\.{2}/g, ".") // 不能连续填2个小数点
-        .replace(/^0+$/, "0") // 全部填写0时只显示一个0
-        .replace(/^0(\d{1})/g, "$1") // 以0开头的整数，只展示整数部分
+        .replace(/[^\d.]|^\./g, '') // 只能填数字或者小数点
+        .replace(/\.{2}/g, '.') // 不能连续填2个小数点
+        .replace(/^0+$/, '0') // 全部填写0时只显示一个0
+        .replace(/^0(\d{1})/g, '$1') // 以0开头的整数，只展示整数部分
         // .replace(/^(-?[1-9]\d*|0)(\.\d{1,4})(\.|\d{1})?$/, '$1$2')
         .replace(
           new RegExp(
-            "^(\\-?[1-9]\\d*|\\-?0)(\\.\\d{1," + bit + "})(.|\\d{1})?$"
+            '^(\\-?[1-9]\\d*|\\-?0)(\\.\\d{1,' + bit + '})(.|\\d{1})?$'
           ),
-          "$1$2"
-        );
+          '$1$2'
+        )
       if ($attrs.max) {
         if (Number(result) > $attrs.max) {
-          result = $attrs.max;
+          result = $attrs.max
         }
       }
       if ($attrs.min) {
         if (Number(result) < $attrs.min) {
-          result = $attrs.min;
+          result = $attrs.min
         }
       }
-      this.inputVal = result;
-    },
+      this.inputVal = result
+    }
   },
-  mounted() {},
-};
+  mounted () {}
+}
 </script>
 <style lang="less" scoped></style>

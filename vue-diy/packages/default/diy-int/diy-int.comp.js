@@ -1,7 +1,7 @@
-import DiyInt from "./diy-int.vue"
+import DiyInt from './diy-int.vue'
 
 export default {
-  install(Vue){
-    Vue.component(DiyInt.name,DiyInt)
+  install (Vue) {
+    Vue.component(DiyInt.name, DiyInt)
   }
 }
