@@ -1,12 +1,12 @@
 {
   "name": "vue-diy",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.2",
+  "private": false,
   "main": "dist/index.js",
   "scripts": {
     "compiler": "node webpack/compiler.js",
     "dev": "webpack serve --open --config webpack/develop.js",
-    "build": "webpack --config webpack/develop.js"
+    "build": "webpack --config webpack/product.js"
   },
   "dependencies": {
     "axios": "^0.27.2",

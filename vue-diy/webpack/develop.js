@@ -6,10 +6,10 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
   mode: 'development',
-  mode: 'none',
   entry: resolve(__dirname, '../src/index'),
   output: {
-    clean: true
+    clean: true,
+    filename: 'index.js'
   },
   module: {
     rules: [

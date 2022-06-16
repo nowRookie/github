@@ -26,5 +26,8 @@ const install = (Vue) => {
     Vue.component(name, content[name])
   }
 }
+console.log('===============================================')
+console.log(content, components, install)
+console.log('===============================================')
 export default install
 export { content, components }
