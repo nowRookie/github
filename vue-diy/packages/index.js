@@ -10,7 +10,7 @@ const content = {}
 const components = {}
 
 VueFiles.keys().forEach((url) => {
-  const vueFile = url.replace(/.*\/(.*)\.vue$/, '$1') // 文件名作为key
+  const vueFile = url.replace(/.*\/(.*)\.vue$/, '$1') // 文件名作为key，注意文件名的唯一性 (原谅我的正则比较拉胯，只能写出来这种)
   const vueFileDefault = VueFiles(url).default // export default 的文件内容
   content[vueFile] = vueFileDefault
 })
