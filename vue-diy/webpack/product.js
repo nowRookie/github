@@ -9,7 +9,11 @@ module.exports = {
   entry: resolve(__dirname, '../packages/index'),
   output: {
     clean: true,
-    filename: 'index.js'
+    path: resolve(__dirname, '../dist'),
+    filename: 'index.js',
+    library: {
+      type: 'umd'
+    }
   },
   module: {
     rules: [
